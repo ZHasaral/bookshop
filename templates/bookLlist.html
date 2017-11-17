@@ -1,0 +1,9 @@
+<div>
+    <h3>Список книг</h3>
+    <div ng-repeat="book in books" >
+        <div >
+            <a href="#!/edit.html">{{ book.name }}</a>
+             <p >{{ book.price | currency }}</p>
+        </div></div>
+
+</div><br>

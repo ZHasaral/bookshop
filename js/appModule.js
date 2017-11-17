@@ -2,13 +2,13 @@ var app = angular.module("app", ['ngRoute']);
  app.config(function($routeProvider){
 
         $routeProvider.when("/menu1", {
-                templateUrl:'templates/addPrepod.html',
+                templateUrl:'templates/addBook.html',
             controller:'menuOneController'
                 
             })
 
      $routeProvider.when("/menu2", {
-                templateUrl:'templates/addStudent.html',
+                templateUrl:'templates/bookLlist.html',
          controller:'menuTwoController'
             
             })

@@ -1,21 +1,27 @@
 var app = angular.module("app", ['ngRoute', 'LocalStorageModule']);
 app.config(function($routeProvider){
 
-    $routeProvider.when("/addPrepod", {
-        templateUrl:'templates/addPrepod.html',
+    $routeProvider.when("/addBook", {
+        templateUrl:'templates/addBook.html',
         controller:'menuOneController'
 
     })
 
-    $routeProvider.when("/addStudent", {
-        templateUrl:'templates/addStudent.html',
+    $routeProvider.when("/bookList", {
+        templateUrl:'templates/bookLlist.html',
         controller:'menuTwoController'
+
+    })
+    $routeProvider.when("/edit", {
+        templateUrl:'templates/bookLlist.html',
+        controller:'menuThreeController'
 
     })
 
     $routeProvider.otherwise({redirectTo: '/'});
 })
 var books = [];
+
 function Avtor(surname, name, kurs, gpa)
 {
     var fam = surname;
@@ -36,24 +42,12 @@ function Avtor(surname, name, kurs, gpa)
         return kurs; }
 
 }
-function Prepodavatel(prepid,surname, name)
-{
-    this.id = prepid;
-    this.surname = surname;
-    this.name = name;
-    this.getSurname    = function()      { return surname; }
-    this.getName       = function()      { return name; }
-
-
-}
 
 function Book(title, shifr) {
 
     var title = title;
     var shifr = shifr;
-    var Prepodavatel = null;
     var avtors = [];
-    var studentsCounter = 0;
 
     this.getName     = function()      {
         return title; }
@@ -61,13 +55,6 @@ function Book(title, shifr) {
         return shifr; }
     this.getStudents = function()      { return avtors; }
 
-    this.setPrepod = function(prepod)
-    {
-        Prepodavatel = prepod;
-    }
-    this.getPrepod  = function()      {
-        return Prepodavatel;
-    }
     this.addStudent = function(student)
     {
         avtors[studentsCounter] = student;
@@ -79,17 +66,29 @@ function Book(title, shifr) {
 
 app.controller('menuOneController', function($scope,localStorageService){
 
-    document.getElementById("groupsList").innerHTML = localStorageService.get('key');
-    $scope.addNewPrepodavatel = function() {
+    $scope.books = [
+        {
+            name: 'The Book of Trees',
+            idbook: 1,
+            price: 19
+        },
+        {
+            name: 'ADSDasD',
+            idbook: 2,
+            price: 21
+        }
+    ];
+    $scope.addnewBook = function () {
+        $scope.books.push(
+            {
+                name:  $scope.name,
+                idbook:$scope.id,
+                price: $scope.price
 
-        var groupIndex;
-        for (var i = 0; i < books.length; i++)
-            if (books[i].getName() === $scope.group)
-                groupIndex = i;
-        books[groupIndex].setPrepod(new Prepodavatel($scope.prepId,$scope.prepSurname,$scope.prepName));
 
-
-    }
+            });
+        localStorageService.set('key',$scope.books);
+    };
 
 
 
@@ -97,16 +96,8 @@ app.controller('menuOneController', function($scope,localStorageService){
 
 })
 app.controller('menuTwoController', function($scope,localStorageService){
-    document.getElementById("groupsList").innerHTML = localStorageService.get('key');
-    $scope.addNewStudent = function () {
-        var bookIndex;
-        for (var i = 0; i < books.length; i++)
-            if (books[i].getName() === $scope.group)
-                bookIndex = i;
-        books[bookIndex].addStudent(new Avtor( $scope.studSurname, $scope.studName,$scope.studKurs, $scope.studGpa));
+  $scope.books  = localStorageService.get('key');
 
-
- }
 
 })
 
@@ -114,7 +105,9 @@ app.controller('menuTwoController', function($scope,localStorageService){
 
 app.controller('AppCtrl', function ($scope,localStorageService) {
 
-    $scope.addNewGroup=function () {
+
+
+    $scope.addNewBook=function () {
 
         books.push(new Book($scope.grupTitle, $scope.grupShifr));
         var options = "";
