@@ -1,4 +1,6 @@
 var app = angular.module("app", ['ngRoute', 'LocalStorageModule']);
+
+
 app.config(function($routeProvider){
 
     $routeProvider.when("/addBook", {
@@ -12,7 +14,7 @@ app.config(function($routeProvider){
         controller:'AppCtrl'
 
     })
-    $routeProvider.when("/bookList/:id", {
+    $routeProvider.when("/bookList/:$index", {
         templateUrl:'templates/bookList.html',
         controller:'AppCtrl'
 
@@ -42,7 +44,40 @@ function Book(titleValue,priceValue,imageValue) {
     var title = titleValue;
     var price = priceValue;
     var image = imageValue;
+    var avtors = null;
+    var izdatelstvo = null;
+    var details = null;
+    var likes = 0;
+    var dislikes = 0;
 
+    this.getLikes = function () {
+        return likes;
+    }
+
+    this.setLikes = function (value) {
+        likes += value;
+    }
+    this.setDislikes = function (value) {
+        likes -= value;
+    }
+    this.getAvtors=function () {
+        return avtors;
+    }
+    this.getIzdatelstvo = function () {
+        return izdatelstvo;
+    }
+    this.getDetails = function () {
+        return details;
+    }
+    this.setAvtors = function (value) {
+        avtors = value;
+    }
+    this.setIzdatelstvo = function (value) {
+        izdatelstvo = value;
+    }
+    this.setDetails = function (value) {
+        details = value;
+    }
 
     this.getId = function()     {
         return id;
@@ -67,8 +102,17 @@ function Book(titleValue,priceValue,imageValue) {
     }
 }
 
-app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams) {
+app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams,localStorageService) {
     $scope.books = [];
+    $scope.delete = function() {
+        $scope.books.splice(this.$index, 1);
+    }
+
+
+
+
+
+
     $scope.$on('$routeChangeSuccess', function()
     {
         $scope.books = books;
@@ -76,9 +120,7 @@ app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams
         for (var i = 0; i < books.length; i++)
         {
             var book = books[i];
-            console.log("**************************");
-            console.log(book.getId());
-            console.log(book.getTitle());
+            $scope.results = book.getTitle();
 
         }
 
@@ -86,7 +128,7 @@ app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams
 
     $scope.addNewBook=function () {
 
-          var book = new Book($scope.bookTitle, $scope.price,'img/' + $('#poster').val().split('\\').pop());
+          var book = new Book($scope.bookTitle, $scope.price,'img/' + $('#images').val().split('\\').pop());
          var books = $scope.books;
         books.push(book);
         console.log(books[0].getTitle());
@@ -95,8 +137,21 @@ app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams
     };
     $scope.bookClick = function()
     {
-        var id = $routeParams.id;
-        alert(id + ' ' + $routeParams);
+        var index = $routeParams.$index;
+        alert(index + ' ' + $routeParams);
+    }
+
+
+    $scope.bookEditClick=function () {
+        var index;
+        for (var i = 0; i < books.length; i++)
+            if (books[i].getTitle() === $scope.repeatSelect)
+                index = i;
+
+        books[index].setTitle($scope.titleEdit);
+        books[index].setPrice($scope.priceEdit);
+        books[index].setImage('img/' + $('#images').val().split('\\').pop());
+        console.log(books[index].getImage());
     }
 
 

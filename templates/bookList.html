@@ -1,14 +1,13 @@
 <div>
-    <h3>Список книг</h3>
-
-        <a class="book_preview" ng-repeat = "book in books |  orderBy: book" href = "#/bookList/{{ book.getId() }}" ng-click = "bookClick()">
+    <h1>Список книг</h1>
+        <div class="book_preview" ng-repeat = "book in books">
+        <a class="book_preview" href = "#!/edit/{{ $index }}" ng-click = "bookClick()">
             <img ng-src = "{{ book.getImage() }}"/>
             <h5> {{ book.getTitle() }}</h5>
             <h5> {{ book.getPrice() | currency:'KZT ':true:'1-0.0'}}</h5>
 
         </a>
-
-    </div>
+        </div>
 
 
 </div><br>

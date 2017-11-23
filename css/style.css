@@ -9,13 +9,19 @@ h1 {
   font-size: 36px; /* Размер шрифта */
   font-weight: bold; /* Жирное начертание */
   margin: 0; /* Убираем отступы */
-  color: #fc6; /* Цвет текста */
+  color: #13546d; /* Цвет текста */
 }
+ h10 {
+     font-size: 36px; /* Размер шрифта */
+     font-weight: bold; /* Жирное начертание */
+     margin: 0; /* Убираем отступы */
+     color: #bbe6f6; /* Цвет текста */
+ }
 h2 {
   margin-top: 0; /* Убираем отступ сверху */
 }
 #head { /* Верхний блок */
-  background: #0080c0; /* Цвет фона */
+  background: #3c3c3c; /* Цвет фона */
   padding: 10px; /* Поля вокруг */
 }
 #menu { /* Левая колонка */
@@ -63,15 +69,27 @@ h2 {
 
  .content
  {
-     padding: 15px 10px 15px 20px;
+     padding: 0;
  }
  .book_preview
  {
+     text-align: center;
      float: left;
      margin-right: 50px;
      margin-bottom: 30px;
      color: #9C9C9C;
+
+     padding: 15px; /* Расстояние от картинки до рамки */
+     background: transparent; /* Цвет фона */
+     margin-right: 10px; /* Отступ справа */
+     margin-bottom: 10px; /* Отступ снизу */
  }
+ .bookDelete
+ {
+
+     border-spacing: 1px  1px;
+ }
+
  .book_preview:hover
  {
      color: #222222;
@@ -79,6 +97,7 @@ h2 {
 
  .book_preview img
  {
+     align-content: center;
      width: 200px;
      height: 300px;
      border-radius: 5px;

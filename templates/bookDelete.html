@@ -1,4 +1,14 @@
 <div>
+    <h1>Удаление книг</h1>
+
+    <table class="bookDelete" ng-repeat = "book in books">
+        <tr>
+            <td><h5> {{ book.getTitle() }}</h5></td>
 
 
-</div>
+            <td><button ng-click="delete()">x</button></td>
+         </tr>
+    </table>
+
+
+</div><br>
