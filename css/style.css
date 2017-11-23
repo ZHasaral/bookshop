@@ -1,5 +1,5 @@
  body {
-                        font-family: 'Roboto Condensed', Helvetica, sans-serif;
+                        font-family: Roboto Condensed, Helvetica, sans-serif;
                         text-align: left;
                         font-size: 18px;
                         color: #303030;
@@ -22,6 +22,7 @@ h2 {
   float: left; /* Обтекание справа */
   border: 1px solid #333; /* Параметры рамки вокруг */
   width: 200px; /* Ширина колонки */
+    height: auto;
   padding: 5px; /* Поля вокруг текста */
   margin: 10px 10px 20px 5px; /* Значения отступов */
 }
@@ -45,7 +46,7 @@ h2 {
   padding: 5px; /* Поля вокруг текста */
   border: 1px solid #333; /* Параметры рамки */
   font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Roboto Condensed, Helvetica, sans-serif;
 }
 .line {
   border-bottom: 1px groove #333; /* Линия между ссылками */
@@ -60,10 +61,34 @@ h2 {
                         width: 100%;
                       }
 
-   .content{
-     float: right;
-     width: 800px;
-     text-align: left;
-     margin-right:100px;
-   }
+ .content
+ {
+     padding: 15px 10px 15px 20px;
+ }
+ .book_preview
+ {
+     float: left;
+     margin-right: 50px;
+     margin-bottom: 30px;
+     color: #9C9C9C;
+ }
+ .book_preview:hover
+ {
+     color: #222222;
+ }
+
+ .book_preview img
+ {
+     width: 200px;
+     height: 300px;
+     border-radius: 5px;
+     border: 1px solid #9C9C9C;
+
+ }
+
+ .book_preview h5
+ {
+     max-width: 200px;
+     text-align: center;
+ }
 

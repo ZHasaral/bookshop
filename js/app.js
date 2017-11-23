@@ -12,6 +12,11 @@ app.config(function($routeProvider){
         controller:'AppCtrl'
 
     })
+    $routeProvider.when("/bookList/:id", {
+        templateUrl:'templates/bookList.html',
+        controller:'AppCtrl'
+
+    })
     $routeProvider.when("/edit", {
         templateUrl:'templates/edit.html',
         controller:'AppCtrl'
@@ -26,7 +31,9 @@ app.config(function($routeProvider){
     $routeProvider.otherwise({redirectTo: '/'});
 })
  var books = [];
-
+books.push(new Book("CSS. 100 и 1 совет, 3-е издание", 10000, "img/css.jpg"));
+books.push(new Book("Эффект муравейника. Успешная работа команды и коллективный разум", 6000, "img/effect.jpg"));
+books.push(new Book("Программирование на Python, 4-е издание, I том", 9533, "img/python.jpg"));
 
 
 Book.idCounter = 0;
@@ -86,6 +93,11 @@ app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams
         console.log(books[0].getId());
 
     };
+    $scope.bookClick = function()
+    {
+        var id = $routeParams.id;
+        alert(id + ' ' + $routeParams);
+    }
 
 
 }]);
