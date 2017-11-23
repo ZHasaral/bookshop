@@ -8,6 +8,11 @@ app.config(function($routeProvider){
         controller:'AppCtrl'
 
     })
+    $routeProvider.when("/bookDetails", {
+        templateUrl:'templates/addDetails.html',
+        controller:'AppCtrl'
+
+    })
 
     $routeProvider.when("/bookList", {
         templateUrl:'templates/bookList.html',
@@ -138,7 +143,7 @@ app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams
     $scope.bookClick = function()
     {
         var index = $routeParams.$index;
-        alert(index + ' ' + $routeParams);
+
     }
 
 
@@ -152,6 +157,19 @@ app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams
         books[index].setPrice($scope.priceEdit);
         books[index].setImage('img/' + $('#images').val().split('\\').pop());
         console.log(books[index].getImage());
+    }
+    $scope.addBookDetails = function () {
+        var index;
+        for (var i = 0; i < books.length; i++)
+            if (books[i].getTitle() === $scope.repeatSelect)
+                index = i;
+
+        books[index].setAvtors($scope.avtorsAdd);
+        books[index].setDetails($scope.detailsAdd);
+        books[index].setIzdatelstvo($scope.izdatelAdd);
+        console.log(books[0].getAvtors());
+        console.log(books[0].getDetails());
+
     }
 
 
