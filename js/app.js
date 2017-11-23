@@ -17,81 +17,44 @@ app.config(function($routeProvider){
         controller:'menuThreeController'
 
     })
+    $routeProvider.when("/bookDelete", {
+        templateUrl:'templates/bookDelete.html',
+        controller:'bookDeleteController'
+
+    })
 
     $routeProvider.otherwise({redirectTo: '/'});
 })
 var books = [];
 
-function Avtor(surname, name, kurs, gpa)
-{
-    var fam = surname;
-    var nam = name;
-    var course = kurs;
-    var gpaa = gpa;
 
-    this.getSurname = function()      {
-        return surname; }
-
-    this.getName    = function()      {
-        return name; }
-
-
-    this.getGpa     = function()      {
-        return gpa;  }
-    this.getkurs    = function()      {
-        return kurs; }
-
-}
-
-function Book(title, shifr) {
-
-    var title = title;
-    var shifr = shifr;
+Book.idCounter = 0;
+function Book(titleValue) {
+    var id = ++Book.idCounter;
+    var title = titleValue;
+    var image = image;
     var avtors = [];
-
-    this.getName     = function()      {
-        return title; }
-    this.getShifr     = function()      {
-        return shifr; }
-    this.getStudents = function()      { return avtors; }
-
-    this.addStudent = function(student)
-    {
-        avtors[studentsCounter] = student;
-        studentsCounter++;
-
+    var genres = [];
+    this.getId              = function()      {
+        return id;
+    }
+    this.getTitle              = function()      {
+        return title;
     }
 }
 
-
 app.controller('menuOneController', function($scope,localStorageService){
+    $scope.addNewBook=function () {
 
-    $scope.books = [
-        {
-            name: 'The Book of Trees',
-            idbook: 1,
-            price: 19
-        },
-        {
-            name: 'ADSDasD',
-            idbook: 2,
-            price: 21
-        }
-    ];
-    $scope.addnewBook = function () {
-        $scope.books.push(
-            {
-                name:  $scope.name,
-                idbook:$scope.id,
-                price: $scope.price
+        books.push(new Book($scope.bookTitle));
+        var options = "";
+        for (var i = 0; i < books.length; i++)
+            options += "<option value = " + books[i].getTitle() + " />";
 
-
-            });
-        localStorageService.set('key',$scope.books);
-    };
-
-
-
+        localStorageService.set('key',options);
+        console.log(books[1]);
+        console.log(books[2]);
+    }
 
 
 })
@@ -100,55 +63,28 @@ app.controller('menuTwoController', function($scope,localStorageService){
 
 
 })
+app.controller('menuThreeController', function($scope,localStorageService){
+   var  blist = '';
+
+    var bookIndex;
+    for (var i = 0; i < books.length; i++)
+        bookIndex = i;
+   blist = books[bookIndex].getTitle();
+    $scope.booktitle =blist;
+
+
+})
+app.controller('bookDeleteController', function($scope,localStorageService){
+    $scope.books  = localStorageService.get('key');
+
+
+})
 
 
 
 app.controller('AppCtrl', function ($scope,localStorageService) {
 
-     $scope.addNewBook=function () {
 
-        books.push(new Book($scope.grupTitle, $scope.grupShifr));
-        var options = "";
-        for (var i = 0; i < books.length; i++)
-            options += "<option value = " + books[i].getName() + " />";
-        document.getElementById("groupsList").innerHTML = options;
-        localStorageService.set('key',options);
-    }
-
-    $scope.information=function () {
-        var groupIndex;
-        for (var i = 0; i < books.length; i++)
-            if (books[i].getName() === $scope.group)
-                groupIndex = i;
-
-        $scope.infTitle =  books[groupIndex].getName();
-        $scope.infshifr =  books[groupIndex].getShifr();
-
-        var p = books[groupIndex].getPrepod();
-         $scope.prepod = p.getSurname() + " " + p.getName();
-        var slist = "";
-        var students = books[groupIndex].getStudents();
-        for (var i = 0; i < students.length; i++)
-        {
-            var s = students[i];
-            slist +=  "Фамилия: "+ s.getSurname() +", " + " Имя:" + s.getName() +", " + "Курс: " + s.getkurs() + " GPA: " + s.getGpa() + "\n";
-        }
-
-        $scope.students = slist;
-
-
-
-
-
-    }
-    /*this.getAverageGpa = function()
-    {
-        var averageGpa = 0.0;
-        for (var i = 0; i < students.length; i++)
-            averageGpa += Number(students[i].getGpa());
-        return (averageGpa / students.length).toFixed(4);
-    }
-*/
 
 
 

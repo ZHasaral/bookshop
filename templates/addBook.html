@@ -1,8 +1,14 @@
-<div>
-    <h3>Добавить книгу</h3>
-    <div><input type="text" ng-model="name"placeholder="Название книги" /> </div>
-    <div><input type="text" ng-model="idbook" placeholder="id книги"/> </div>
-    <div><input type="text" ng-model="price" placeholder="Price"/> </div>
-    <div><button ng-click="addnewBook()">add book</button> </div>
+<div ng-controller="menuOneController">
+    <h1>Добавление книги</h1>
 
-</div><br>
+    <form>
+        <table>
+            <tr>
+                <td><span>Название фильма:</span></td>
+                <td><input type = "text" placeholder = "Титаник" ng-model = "bookTitle"></td>
+
+            </tr>
+        </table>
+        <input type = "submit" value = "Добавить" ng-click = "addNewBook()">
+    </form>
+</div>
