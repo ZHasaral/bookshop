@@ -105,9 +105,7 @@ app.controller('menuTwoController', function($scope,localStorageService){
 
 app.controller('AppCtrl', function ($scope,localStorageService) {
 
-
-
-    $scope.addNewBook=function () {
+     $scope.addNewBook=function () {
 
         books.push(new Book($scope.grupTitle, $scope.grupShifr));
         var options = "";
