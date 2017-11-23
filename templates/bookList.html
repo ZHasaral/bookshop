@@ -1,9 +1,9 @@
 <div>
     <h3>Список книг</h3>
-    <div  >
+    <div  ng-repeat="book in books">
 
-            <h5> {{ books[0].getTitle() }}</h5>
-            <img ng-src = "{{ books[0].getImage() }}"/>
+            <h5> {{ book.getTitle() }}</h5>
+            <img ng-src = "{{ book.getImage() }}"/>
 
         </div>
     </div>

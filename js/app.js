@@ -64,7 +64,7 @@ app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams
     $scope.books = [];
     $scope.$on('$routeChangeSuccess', function()
     {
-        $scope.films = books;
+        $scope.books = books;
 
         for (var i = 0; i < books.length; i++)
         {
