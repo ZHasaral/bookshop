@@ -1,159 +1,138 @@
 var app = angular.module("app", ['ngRoute', 'LocalStorageModule']);
+
+
 app.config(function($routeProvider){
 
     $routeProvider.when("/addBook", {
         templateUrl:'templates/addBook.html',
-        controller:'menuOneController'
+        controller:'AppCtrl'
+
+    })
+    $routeProvider.when("/bookDetails", {
+        templateUrl:'templates/addDetails.html',
+        controller:'AppCtrl'
 
     })
 
     $routeProvider.when("/bookList", {
-        templateUrl:'templates/bookLlist.html',
-        controller:'menuTwoController'
+        templateUrl:'templates/bookList.html',
+        controller:'AppCtrl'
+
+    })
+    $routeProvider.when("/bookList/:$index", {
+        templateUrl:'templates/bookList.html',
+        controller:'AppCtrl'
 
     })
     $routeProvider.when("/edit", {
-        templateUrl:'templates/bookLlist.html',
-        controller:'menuThreeController'
+        templateUrl:'templates/edit.html',
+        controller:'AppCtrl'
+
+    })
+    $routeProvider.when("/bookDelete", {
+        templateUrl:'templates/bookDelete.html',
+        controller:'AppCtrl'
 
     })
 
     $routeProvider.otherwise({redirectTo: '/'});
 })
-var books = [];
-
-function Avtor(surname, name, kurs, gpa)
-{
-    var fam = surname;
-    var nam = name;
-    var course = kurs;
-    var gpaa = gpa;
-
-    this.getSurname = function()      {
-        return surname; }
-
-    this.getName    = function()      {
-        return name; }
+ var books = [];
+books.push(new Book("CSS. 100 и 1 совет, 3-е издание", 10000, "img/css.jpg"));
+books.push(new Book("Эффект муравейника. Успешная работа команды и коллективный разум", 6000, "img/effect.jpg"));
+books.push(new Book("Программирование на Python, 4-е издание, I том", 9533, "img/python.jpg"));
 
 
-    this.getGpa     = function()      {
-        return gpa;  }
-    this.getkurs    = function()      {
-        return kurs; }
+Book.idCounter = 0;
+function Book(titleValue,priceValue,imageValue) {
+    var id = ++Book.idCounter;
+    var title = titleValue;
+    var price = priceValue;
+    var image = imageValue;
+    var avtors = null;
+    var izdatelstvo = null;
+    var details = null;
+    var likes = 0;
+    var dislikes = 0;
 
-}
+    this.getLikes = function () {
+        return likes;
+    }
 
-function Book(title, shifr) {
+    this.setLikes = function (value) {
+        likes += value;
+    }
+    this.setDislikes = function (value) {
+        likes -= value;
+    }
+    this.getAvtors=function () {
+        return avtors;
+    }
+    this.getIzdatelstvo = function () {
+        return izdatelstvo;
+    }
+    this.getDetails = function () {
+        return details;
+    }
+    this.setAvtors = function (value) {
+        avtors = value;
+    }
+    this.setIzdatelstvo = function (value) {
+        izdatelstvo = value;
+    }
+    this.setDetails = function (value) {
+        details = value;
+    }
 
-    var title = title;
-    var shifr = shifr;
-    var avtors = [];
-
-    this.getName     = function()      {
-        return title; }
-    this.getShifr     = function()      {
-        return shifr; }
-    this.getStudents = function()      { return avtors; }
-
-    this.addStudent = function(student)
-    {
-        avtors[studentsCounter] = student;
-        studentsCounter++;
-
+    this.getId = function()     {
+        return id;
+    }
+    this.getTitle = function()  {
+        return title;
+    }
+    this.getPrice = function () {
+        return price;
+    }
+    this.getImage = function () {
+        return image;
+    }
+    this.setImage = function(value) {
+        image = value; 
+    }
+    this.setTitle = function (value) {
+        title = value;
+    }
+    this.setPrice = function (value) {
+        price = value;
     }
 }
 
-
-app.controller('menuOneController', function($scope,localStorageService){
-
-    $scope.books = [
-        {
-            name: 'The Book of Trees',
-            idbook: 1,
-            price: 19
-        },
-        {
-            name: 'ADSDasD',
-            idbook: 2,
-            price: 21
-        }
-    ];
-    $scope.addnewBook = function () {
-        $scope.books.push(
-            {
-                name:  $scope.name,
-                idbook:$scope.id,
-                price: $scope.price
-
-
-            });
-        localStorageService.set('key',$scope.books);
-    };
-
-
-
-
-
-})
-app.controller('menuTwoController', function($scope,localStorageService){
-  $scope.books  = localStorageService.get('key');
-
-
-})
-
-
-
-app.controller('AppCtrl', function ($scope,localStorageService) {
-
-     $scope.addNewBook=function () {
-
-        books.push(new Book($scope.grupTitle, $scope.grupShifr));
-        var options = "";
-        for (var i = 0; i < books.length; i++)
-            options += "<option value = " + books[i].getName() + " />";
-        document.getElementById("groupsList").innerHTML = options;
-        localStorageService.set('key',options);
+app.controller('AppCtrl',['$scope','$routeParams', function ($scope,$routeParams,localStorageService) {
+    $scope.books = [];
+    $scope.delete = function() {
+        $scope.books.splice(this.$index, 1);
     }
 
-    $scope.information=function () {
-        var groupIndex;
-        for (var i = 0; i < books.length; i++)
-            if (books[i].getName() === $scope.group)
-                groupIndex = i;
-
-        $scope.infTitle =  books[groupIndex].getName();
-        $scope.infshifr =  books[groupIndex].getShifr();
-
-        var p = books[groupIndex].getPrepod();
-         $scope.prepod = p.getSurname() + " " + p.getName();
-        var slist = "";
-        var students = books[groupIndex].getStudents();
-        for (var i = 0; i < students.length; i++)
-        {
-            var s = students[i];
-            slist +=  "Фамилия: "+ s.getSurname() +", " + " Имя:" + s.getName() +", " + "Курс: " + s.getkurs() + " GPA: " + s.getGpa() + "\n";
-        }
-
-        $scope.students = slist;
 
 
 
 
 
-    }
-    /*this.getAverageGpa = function()
+    $scope.$on('$routeChangeSuccess', function()
     {
-        var averageGpa = 0.0;
-        for (var i = 0; i < students.length; i++)
-            averageGpa += Number(students[i].getGpa());
-        return (averageGpa / students.length).toFixed(4);
-    }
-*/
+        $scope.books = books;
+
+        for (var i = 0; i < books.length; i++)
+        {
+            var book = books[i];
+            $scope.results = book.getTitle();
+
+        }
+
+    });
+
+    
 
 
-
-
-
-
-});
+}]);
 

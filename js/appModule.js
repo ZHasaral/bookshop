@@ -8,7 +8,7 @@ var app = angular.module("app", ['ngRoute']);
             })
 
      $routeProvider.when("/menu2", {
-                templateUrl:'templates/bookLlist.html',
+                templateUrl:'templates/bookList.html',
          controller:'menuTwoController'
             
             })
